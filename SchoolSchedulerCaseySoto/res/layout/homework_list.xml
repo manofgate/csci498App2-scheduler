@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     	android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        
+      <TextView
+        android:id="@+id/courseMid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/courseName"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+      
+      <TextView
+    	android:id="@+id/courseNameMid"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_alignBaseline="@+id/courseMid"
+    	android:layout_alignBottom="@+id/courseMid"
+    	android:layout_marginLeft="27dp"
+    	android:layout_toRightOf="@+id/courseMid"
+    	android:text="" />
+
+    <Button
+        android:id="@+id/addHomeworkb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="34dp"
+        android:text="@string/addHomework" />
+    
+    <TextView
+        android:id="@+id/homeworkMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/courseMid"
+        android:layout_marginLeft="15dp"
+        android:text="@string/homeworkName"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+<FrameLayout
+    android:id="@+id/fragment_container"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:isScrollContainer="true"
+    android:layout_alignParentLeft="true"
+    android:layout_centerVertical="true" >
+</FrameLayout>
+
+
+
+    </RelativeLayout>
