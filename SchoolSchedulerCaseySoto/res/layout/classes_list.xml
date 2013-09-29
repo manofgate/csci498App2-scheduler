@@ -20,13 +20,12 @@
         android:layout_marginRight="34dp"
         android:text="@string/addCourse" />
 
-<FrameLayout
-    android:id="@+id/fragment_container"
-    android:layout_width="match_parent"
+<ListView
+    android:id="@android:id/list"
+    android:layout_width="fill_parent"
     android:layout_height="300dp"
-    android:isScrollContainer="true"
     android:layout_alignParentLeft="true"
     android:layout_centerVertical="true" >
-</FrameLayout>
+</ListView>
 
     </RelativeLayout>

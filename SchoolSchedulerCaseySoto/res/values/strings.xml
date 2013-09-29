@@ -12,5 +12,8 @@
     <string name="addCourse">Add</string>
     <string name="addHomework">Add</string>
     <string name="submitName">Submit</string>
+    <string name="default_message">Course:</string>
+    <string name="dialog_done">Done</string>
+    <string name="dialog_cancel">Cancel</string>
 
 </resources>
