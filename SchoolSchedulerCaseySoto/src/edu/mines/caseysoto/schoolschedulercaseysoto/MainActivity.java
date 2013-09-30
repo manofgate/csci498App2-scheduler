@@ -34,14 +34,17 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 	    if(savedInstanceState== null)
 	    	check();
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
+	public void onDialog(View view){
+		
+		
+	}
 	public void check(){
 		ContentValues values = new ContentValues();
 		//values.put(CourseTable.COLUMN_ID, "idd");

@@ -18,7 +18,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="34dp"
-        android:text="@string/addCourse" />
+        android:text="@string/addCourse" 
+        android:onClick="onDialog"/>
 
 <ListView
     android:id="@android:id/list"
