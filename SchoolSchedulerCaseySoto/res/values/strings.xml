@@ -15,6 +15,7 @@
     <string name="default_message">Course:</string>
     <string name="dialog_done">Done</string>
     <string name="dialog_cancel">Cancel</string>
-    <string name="statement">hello</string>
+    <string name="statement">Enter the Course:</string>
+    <string name="menu_delete">Delete Item</string>
 
 </resources>
