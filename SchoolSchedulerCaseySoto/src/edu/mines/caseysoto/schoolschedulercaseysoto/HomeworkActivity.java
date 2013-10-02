@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.widget.SimpleCursorAdapter;
 
 @SuppressLint("NewApi")
@@ -67,4 +69,9 @@ public class HomeworkActivity extends ListActivity implements LoaderManager.Load
 		    // Let this ListActivity display the contents of the cursor adapter.
 		    setListAdapter( this.adapter );
 		  }
+		
+		public void addHomeworkToList(View view){
+			Intent intent = new Intent(this, AddHomeworkActivity.class);
+			startActivity(intent);
+		}
 }

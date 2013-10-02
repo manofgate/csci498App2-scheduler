@@ -28,7 +28,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="34dp"
-        android:text="@string/addHomework" />
+        android:text="@string/addHomework"
+        android:onClick="addHomeworkToList" />
     
     <TextView
         android:id="@+id/homeworkMain"
