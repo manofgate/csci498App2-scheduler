@@ -16,5 +16,6 @@
     <string name="dialog_done">Done</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="statement">hello</string>
+    <string name="title_activity_add_homework">AddHomeworkActivity</string>
 
 </resources>

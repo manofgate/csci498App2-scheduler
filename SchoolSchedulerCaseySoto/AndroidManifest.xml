@@ -22,16 +22,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-         <activity
+        <activity
             android:name="edu.mines.caseysoto.schoolschedulercaseysoto.HomeworkActivity"
             android:label="@string/homeworkName" >
         </activity>
+
         <provider
             android:name="edu.mines.caseysoto.schoolschedulercaseysoto.CourseContentProvider"
             android:authorities="edu.mines.caseysoto.schoolschedulercaseysoto.coursecontentprovider"
             android:exported="false" >
         </provider>
+
+        <activity
+            android:name="edu.mines.caseysoto.schoolschedulercaseysoto.AddHomeworkActivity"
+            android:label="@string/title_activity_add_homework" >
+        </activity>
     </application>
 
 </manifest>
