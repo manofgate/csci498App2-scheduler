@@ -10,12 +10,12 @@ import android.database.sqlite.SQLiteOpenHelper;
  * 
  * http://www.vogella.com/articles/AndroidSQLite/article.html#todo_database
  */
-public class CourseDatabaseHelper extends SQLiteOpenHelper
+public class SchedulerDatabaseHelper extends SQLiteOpenHelper
 {
   private static final String DATABASE_NAME = "coursetable.db";
   private static final int DATABASE_VERSION = 1;
 
-  public CourseDatabaseHelper( Context context )
+  public SchedulerDatabaseHelper( Context context )
   {
     super( context, DATABASE_NAME, null, DATABASE_VERSION );
   }

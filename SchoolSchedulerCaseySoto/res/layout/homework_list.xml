@@ -18,6 +18,7 @@
     	android:layout_alignBaseline="@+id/courseMid"
     	android:layout_alignBottom="@+id/courseMid"
     	android:layout_marginLeft="27dp"
+    	android:textSize="24sp"
     	android:layout_toRightOf="@+id/courseMid"
     	android:text="" />
 
