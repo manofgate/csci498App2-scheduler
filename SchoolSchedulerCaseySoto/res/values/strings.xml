@@ -8,7 +8,7 @@
     <string name="homeworkName">Homework: </string>
     <string name="name">Name:</string>
     <string name="date">Due Date:</string>
-    <string name="description">Description (140 chars max):</string>
+    <string name="description">Description:</string>
     <string name="addCourse">Add</string>
     <string name="addHomework">Add</string>
     <string name="submitName">Submit</string>

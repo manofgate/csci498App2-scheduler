@@ -1,3 +1,15 @@
+/**
+* Description: This is the MainActivity class. It is the starting point of the app and will direct the app through
+* 	the other activities as needed. 
+*
+* Documentation Statement: We worked on this Android App all on our own. We did not receive 
+* 	any help on this project from any other student enrolled or not enrolled in the CSCI498 
+* 	class. 
+*
+* @author Craig J. Soto II
+* @author Ben Casey
+*/
+
 package edu.mines.caseysoto.schoolschedulercaseysoto;
 
 import android.net.Uri;
