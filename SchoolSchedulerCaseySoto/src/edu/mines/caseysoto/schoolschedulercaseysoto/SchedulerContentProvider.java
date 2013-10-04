@@ -14,9 +14,9 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 
-public class CourseContentProvider extends ContentProvider
+public class SchedulerContentProvider extends ContentProvider
 {
-  private CourseDatabaseHelper database;
+  private SchedulerDatabaseHelper database;
 
   // Used for the UriMacher
   private static final int TODOS = 10;
@@ -40,7 +40,7 @@ public class CourseContentProvider extends ContentProvider
   @Override
   public boolean onCreate()
   {
-    database = new CourseDatabaseHelper( getContext() );
+    database = new SchedulerDatabaseHelper( getContext() );
     return false;
   }
 

@@ -1,5 +1,6 @@
 package edu.mines.caseysoto.schoolschedulercaseysoto;
 
+
 import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.app.LoaderManager;
@@ -11,13 +12,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 @SuppressLint("NewApi")
 public class HomeworkActivity extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 	
 	 private static final int DELETE_ID = Menu.FIRST + 1;
+	 private String courseName;
 
 	  private SimpleCursorAdapter adapter;
+	  private View mCourseText;
 
 	  /** Called when the activity is first created. */
 	  @Override
@@ -28,12 +32,20 @@ public class HomeworkActivity extends ListActivity implements LoaderManager.Load
 	    this.getListView().setDividerHeight( 2 );
 	    //fillData();
 	    registerForContextMenu( getListView() );
+	    
+	    mCourseText= findViewById(R.id.courseNameMid);
+	    
+	    // Get the message from the intent
+	    Intent intent = getIntent();
+	    String message = intent.getStringExtra( MainActivity.COURSE_MNAME);
+	    ((TextView) mCourseText).setText(message);
+	    courseName = message;
 	  }
 	
 		@Override
 		public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 			String[] projection = { HomeworkTable.COLUMN_ID, HomeworkTable.COLUMN_NAME };
-		    CursorLoader cursorLoader = new CursorLoader( this, CourseContentProvider.CONTENT_URI, projection, null, null, null );
+		    CursorLoader cursorLoader = new CursorLoader( this, SchedulerContentProvider.CONTENT_URI, projection, null, null, null );
 		    return cursorLoader;
 		}
 
@@ -72,6 +84,7 @@ public class HomeworkActivity extends ListActivity implements LoaderManager.Load
 		
 		public void addHomeworkToList(View view){
 			Intent intent = new Intent(this, AddHomeworkActivity.class);
+			intent.putExtra(MainActivity.COURSE_MNAME, courseName);
 			startActivity(intent);
 		}
 }

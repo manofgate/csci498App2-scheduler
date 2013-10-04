@@ -2,16 +2,25 @@ package edu.mines.caseysoto.schoolschedulercaseysoto;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
+import android.content.Intent;
 
 public class AddHomeworkActivity extends Activity {
 	private final static int DESC_MAX = 140;
+	private View mCourseText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_homework);
+		
+		mCourseText = findViewById(R.id.courseNameEnd);
+		//get the message from the intent
+	    Intent intent = getIntent();
+	    String message = intent.getStringExtra( MainActivity.COURSE_MNAME);
+	    ((TextView) mCourseText).setText(message);
 	}
 
 	public void submit(View view){

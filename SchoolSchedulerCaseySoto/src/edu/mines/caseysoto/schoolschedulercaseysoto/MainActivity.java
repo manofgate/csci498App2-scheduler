@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 @SuppressLint("NewApi")
@@ -26,6 +27,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 	private SimpleCursorAdapter adapter;
 	private static final int DELETE_ID = Menu.FIRST + 1;
 	private String courseName;
+	public static final String COURSE_MNAME = "NameOfCourse";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +61,10 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		ContentValues values = new ContentValues();
 	    values.put( CourseTable.COLUMN_NAME, "CSCI498" );
 	    String[] projection = { CourseTable.COLUMN_ID, CourseTable.COLUMN_NAME}; 
-	    Cursor cursor = getContentResolver().query( CourseContentProvider.CONTENT_URI, projection, null, null, null );
-	    if(cursor.getCount() <= 0){
-	    	Uri CourseUri = getContentResolver().insert( CourseContentProvider.CONTENT_URI, values );
-	    }
+	    Cursor cursor = getContentResolver().query( SchedulerContentProvider.CONTENT_URI, projection, null, null, null );
+	    //if(cursor.getCount() <= 0){
+	    	//Uri CourseUri = getContentResolver().insert( SchedulerContentProvider.CONTENT_URI, values );
+	    //}
 	    cursor.close();
 	}
 	public void insertNewCourse(){
@@ -70,9 +72,19 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		//values.put(CourseTable.COLUMN_ID, "idd");
 	    values.put( CourseTable.COLUMN_NAME, courseName );
 	    String[] projection = { CourseTable.COLUMN_ID, CourseTable.COLUMN_NAME};
-	    //TODO: need to figure out how not to enter in same course
-	    Cursor cursor = getContentResolver().query( CourseContentProvider.CONTENT_URI, projection, null, null, null );
-	    Uri CourseUri = getContentResolver().insert( CourseContentProvider.CONTENT_URI, values );
+	    String[] selection = {courseName};
+    	Uri CourseUri = getContentResolver().insert( SchedulerContentProvider.CONTENT_URI, values );
+	    
+    	//chgecks to see if that course name has already been added
+    	Cursor cursor = getContentResolver().query( SchedulerContentProvider.CONTENT_URI, projection, "name=?", selection, CourseTable.COLUMN_ID + " DESC" );
+	    if(cursor.getCount() >1){
+	    		cursor.moveToFirst();
+	    		Uri courseUri = Uri.parse( SchedulerContentProvider.CONTENT_URI + "/" +  cursor.getString(cursor.getColumnIndexOrThrow( CourseTable.COLUMN_ID )) );
+	    		getContentResolver().delete(courseUri, null, null);
+	    		Toast toast = Toast.makeText(getApplicationContext(),"Have already added " +courseName+" course!" , Toast.LENGTH_LONG);
+	    		toast.show();
+	    		fillData();
+	    }
 	    cursor.close();
 	}
 	@Override
@@ -80,10 +92,20 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 	  {
 	    super.onListItemClick( l, v, position, id );
 	    Intent i = new Intent( this, HomeworkActivity.class );
-	    //Uri todoUri = Uri.parse( CourseContentProvider.CONTENT_URI + "/" + id );
-	    //i.putExtra( CourseContentProvider.CONTENT_ITEM_TYPE, todoUri );
+	    Uri courseUri = Uri.parse( SchedulerContentProvider.CONTENT_URI + "/" + id );
+	    String[] projection = { CourseTable.COLUMN_NAME };
+	    
+	    //gets the uris for the same id, moves it to first position.
+	    Cursor cursor = getContentResolver().query( courseUri, projection, null, null, null );
+	    String name= "";
+	    cursor.moveToFirst();	    
+	    name = cursor.getString( cursor.getColumnIndexOrThrow( CourseTable.COLUMN_NAME ) );
+	    cursor.close();
+	    i.putExtra(COURSE_MNAME, name);
+	    i.putExtra( SchedulerContentProvider.CONTENT_ITEM_TYPE, courseUri );
 	    startActivity( i );
 	  }
+	 
 	
 	@Override
 	  public boolean onContextItemSelected( MenuItem item )
@@ -92,7 +114,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 	    {
 	      case DELETE_ID:
 	        AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
-	        Uri uri = Uri.parse( CourseContentProvider.CONTENT_URI + "/" + info.id );
+	        Uri uri = Uri.parse( SchedulerContentProvider.CONTENT_URI + "/" + info.id );
 	        getContentResolver().delete( uri, null, null );
 	        fillData();
 	        return true;
@@ -102,7 +124,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 		String[] projection = { CourseTable.COLUMN_ID, CourseTable.COLUMN_NAME };
-	    CursorLoader cursorLoader = new CursorLoader( this, CourseContentProvider.CONTENT_URI, projection, null, null, null );
+	    CursorLoader cursorLoader = new CursorLoader( this, SchedulerContentProvider.CONTENT_URI, projection, null, null, null );
 	    return cursorLoader;
 	}
 
