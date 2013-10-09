@@ -45,8 +45,8 @@ public class HomeworkActivity extends ListActivity implements LoaderManager.Load
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		String[] projection = { HomeworkTable.COLUMN_ID, HomeworkTable.COLUMN_NAME };
-		CursorLoader cursorLoader = new CursorLoader( this, SchedulerContentProvider.CONTENT_URI, projection, null, null, null );
+		String[] projection = { HomeworkTable.COLUMN_ID, HomeworkTable.COLUMN_NAME, HomeworkTable.COLUMN_DATE, HomeworkTable.COLUMN_DESCRIPTION, HomeworkTable.COLUMN_COURSE_NAME };
+		CursorLoader cursorLoader = new CursorLoader( this, SchedulerContentProvider.CONTENT_URI_H, projection, null, null, null );
 		return cursorLoader;
 	}
 
@@ -64,7 +64,7 @@ public class HomeworkActivity extends ListActivity implements LoaderManager.Load
 	{
 		// Fields from the database (projection)
 		// Must include the _id column for the adapter to work
-		String[] from = new String[] { HomeworkTable.COLUMN_NAME };
+		String[] from = new String[] { HomeworkTable.COLUMN_ID, HomeworkTable.COLUMN_NAME, HomeworkTable.COLUMN_DATE, HomeworkTable.COLUMN_DESCRIPTION, HomeworkTable.COLUMN_COURSE_NAME };
 
 		// Fields on the UI to which we map
 		int[] to = new int[] { R.id.label };

@@ -86,7 +86,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		String[] projection = { CourseTable.COLUMN_ID, CourseTable.COLUMN_NAME};
 		String[] selection = {courseName};
 		Uri CourseUri = getContentResolver().insert( SchedulerContentProvider.CONTENT_URI, values );
-
+		
 		//chgecks to see if that course name has already been added
 		Cursor cursor = getContentResolver().query( SchedulerContentProvider.CONTENT_URI, projection, "name=?", selection, CourseTable.COLUMN_ID + " DESC" );
 		if(cursor.getCount() >1){
@@ -98,6 +98,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 			fillData();
 		}
 		cursor.close();
+		
 	}
 
 	@Override

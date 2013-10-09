@@ -46,8 +46,8 @@ public class SchedulerContentProvider extends ContentProvider
     sURIMatcher.addURI( AUTHORITY, BASE_PATH + "/#", COURSES_ID );
     
     //HW
-    sURIMatcher.addURI( AUTHORITY, BASE_PATH, HOMEWORK );
-    sURIMatcher.addURI( AUTHORITY, BASE_PATH + "/#", HOMEWORK_ID );
+    sURIMatcher.addURI( AUTHORITY, BASE_PATH_H, HOMEWORK );
+    sURIMatcher.addURI( AUTHORITY, BASE_PATH_H + "/#", HOMEWORK_ID );
   }
 
   @Override
