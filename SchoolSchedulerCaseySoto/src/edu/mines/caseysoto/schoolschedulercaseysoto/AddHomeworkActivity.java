@@ -92,15 +92,16 @@ public class AddHomeworkActivity extends Activity {
 		values.put( HomeworkTable.COLUMN_DESCRIPTION, desc);
 		values.put( HomeworkTable.COLUMN_COURSE_NAME, course);
 		
-		String[] projection = { HomeworkTable.COLUMN_ID, HomeworkTable.COLUMN_NAME, HomeworkTable.COLUMN_DATE, HomeworkTable.COLUMN_DESCRIPTION, HomeworkTable.COLUMN_COURSE_NAME};
-		String[] selection = {name, date, desc, course};
-		Uri CourseUri = getContentResolver().insert( SchedulerContentProvider.CONTENT_URI, values );
+		String[] projection = { HomeworkTable.COLUMN_ID, HomeworkTable.COLUMN_NAME};
+		String[] selection = {name};
+		
+		Uri CourseUri = getContentResolver().insert( SchedulerContentProvider.CONTENT_URI_H, values );
 
 		//checks to see if that course name has already been added
-		Cursor cursor = getContentResolver().query( SchedulerContentProvider.CONTENT_URI, projection, "name=?", selection, HomeworkTable.COLUMN_ID + " DESC" );
-		if(cursor.getCount() >1){
+		Cursor cursor = getContentResolver().query( SchedulerContentProvider.CONTENT_URI_H, projection, "name=?", selection, HomeworkTable.COLUMN_ID + " DESC" );
+		if(cursor.getCount() > 1){
 			cursor.moveToFirst();
-			Uri courseUri = Uri.parse( SchedulerContentProvider.CONTENT_URI + "/" +  cursor.getString(cursor.getColumnIndexOrThrow( CourseTable.COLUMN_ID )) );
+			Uri courseUri = Uri.parse( SchedulerContentProvider.CONTENT_URI_H + "/" +  cursor.getString(cursor.getColumnIndexOrThrow( HomeworkTable.COLUMN_ID )) );
 			getContentResolver().delete(courseUri, null, null);
 			Toast toast = Toast.makeText(getApplicationContext(),"Have already added " + name +"!" , Toast.LENGTH_LONG);
 			toast.show();

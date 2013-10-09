@@ -18,9 +18,9 @@ public class HomeworkTable
 	// Database creation SQL statement
 	private static final String TABLE_CREATE = "create table " + TABLE_NAME + "(" + 
 			COLUMN_ID + " integer primary key autoincrement, " + 
-			COLUMN_NAME + " text not null" + 
-			COLUMN_DATE + " text not null" +
-			COLUMN_DESCRIPTION + " text not null" +
+			COLUMN_NAME + " text not null," + 
+			COLUMN_DATE + " text not null," +
+			COLUMN_DESCRIPTION + " text not null," +
 			COLUMN_COURSE_NAME + " text not null" + ");";
 
 	public static void onCreate( SQLiteDatabase database )

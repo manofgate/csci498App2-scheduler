@@ -25,6 +25,7 @@ public class SchedulerDatabaseHelper extends SQLiteOpenHelper
   public void onCreate( SQLiteDatabase database )
   {
     CourseTable.onCreate( database );
+    HomeworkTable.onCreate(database);
   }
 
   /** Method is called during an upgrade of the database, e.g. if you increase the database version. */
