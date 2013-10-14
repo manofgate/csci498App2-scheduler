@@ -38,6 +38,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 
 	private SimpleCursorAdapter adapter;
 	private static final int DELETE_ID = Menu.FIRST + 1;
+	private static final int EDIT_ID = Menu.FIRST + 2;
 	private String courseName;
 	public static final String COURSE_MNAME = "NameOfCourse";
 
@@ -74,9 +75,6 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		values.put( CourseTable.COLUMN_NAME, "CSCI498" );
 		String[] projection = { CourseTable.COLUMN_ID, CourseTable.COLUMN_NAME}; 
 		Cursor cursor = getContentResolver().query( SchedulerContentProvider.CONTENT_URI, projection, null, null, null );
-		//if(cursor.getCount() <= 0){
-		//Uri CourseUri = getContentResolver().insert( SchedulerContentProvider.CONTENT_URI, values );
-		//}
 		cursor.close();
 	}
 	public void insertNewCourse(){
@@ -100,7 +98,23 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		cursor.close();
 		
 	}
-
+	public void updateNewCourse(String newCourseName){
+		ContentValues values = new ContentValues();
+		values.put( CourseTable.COLUMN_NAME, newCourseName );
+		String[] projection = { CourseTable.COLUMN_ID, CourseTable.COLUMN_NAME};
+		String[] selection = {courseName};
+		String[] querySelection = {newCourseName};
+		//chgecks to see if that course name is already in database and adds if not. 
+		Cursor cursor = getContentResolver().query( SchedulerContentProvider.CONTENT_URI, projection, "name=?", querySelection, CourseTable.COLUMN_ID + " DESC" );
+		Log.d("SchoolScheduler::Update Debu", "curosor count : " + cursor.getCount());
+		if(cursor.getCount() <1){
+			int rowsUpdated = getContentResolver().update( SchedulerContentProvider.CONTENT_URI, values, "name=?", selection );
+			Log.d("SchoolScechulder::update Debug", rowsUpdated + ": " + this.courseName + ": " +newCourseName );	
+			fillData();
+		}
+		cursor.close();
+		
+	}
 	@Override
 	protected void onListItemClick( ListView l, View v, int position, long id )
 	{
@@ -132,6 +146,25 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 			getContentResolver().delete( uri, null, null );
 			fillData();
 			return true;
+		case EDIT_ID: 
+			info = (AdapterContextMenuInfo)item.getMenuInfo();
+			uri = Uri.parse( SchedulerContentProvider.CONTENT_URI + "/" + info.id );
+			String[] projection = { CourseTable.COLUMN_NAME };
+
+			//gets the uris for the same id, moves it to first position.
+			Cursor cursor = getContentResolver().query( uri, projection, null, null, null );
+			String name= "";
+			cursor.moveToFirst();	    
+			name = cursor.getString( cursor.getColumnIndexOrThrow( CourseTable.COLUMN_NAME ) );
+			cursor.close();
+			this.courseName= name;
+			Bundle args = new Bundle();
+			args.putInt( "dialogID", 2 );
+			args.putString( "prompt", getString( R.string.statement ) );
+
+			InputDialogFragment dialog = new InputDialogFragment();
+			dialog.setArguments( args );
+			dialog.show( getFragmentManager(), "Dialog" );
 		}
 		return super.onContextItemSelected( item );
 	}
@@ -182,6 +215,11 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 			this.courseName = input;
 			insertNewCourse();
 		}
+		else if(dialogID == 2){
+			updateNewCourse(input);
+			
+			
+		}
 
 	}
 
@@ -202,6 +240,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 	{
 		super.onCreateContextMenu( menu, v, menuInfo );
 		menu.add( 0, DELETE_ID, 0, R.string.menu_delete );
+		menu.add( 0, EDIT_ID, 0, R.string.menu_edit );
 	}
 
 
