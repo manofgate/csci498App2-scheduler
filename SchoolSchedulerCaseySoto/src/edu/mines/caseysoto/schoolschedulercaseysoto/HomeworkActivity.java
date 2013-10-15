@@ -10,16 +10,22 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 @SuppressLint("NewApi")
 public class HomeworkActivity extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
 	private static final int DELETE_ID = Menu.FIRST + 1;
+	private static final int EDIT_ID = Menu.FIRST + 2;
 	private String homeworkName;
 	private SimpleCursorAdapter adapter;
 	public static final String HW_NAME = "NameOfHomework";
@@ -66,6 +72,7 @@ public class HomeworkActivity extends ListActivity implements LoaderManager.Load
 	{
 		// Fields from the database (projection)
 		// Must include the _id column for the adapter to work
+
 		String[] from = new String[] { HomeworkTable.COLUMN_NAME, HomeworkTable.COLUMN_DATE, HomeworkTable.COLUMN_DESCRIPTION };
 
 		// Fields on the UI to which we map
@@ -86,5 +93,31 @@ public class HomeworkActivity extends ListActivity implements LoaderManager.Load
 		Intent intent = new Intent(this, AddHomeworkActivity.class);
 		intent.putExtra(MainActivity.COURSE_MNAME, courseName);
 		startActivity(intent);
+	}
+	/** The menu displayed on a long touch. */
+	@Override
+	public void onCreateContextMenu( ContextMenu menu, View v, ContextMenuInfo menuInfo )
+	{
+		super.onCreateContextMenu( menu, v, menuInfo );
+		menu.add( 0, DELETE_ID, 0, R.string.menu_delete );
+		menu.add( 0, EDIT_ID, 0, R.string.menu_edit );
+	}
+	@Override
+	public boolean onContextItemSelected( MenuItem item )
+	{
+		switch( item.getItemId() )
+		{
+		case DELETE_ID:
+			AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
+			Uri uri = Uri.parse( SchedulerContentProvider.CONTENT_URI_H + "/" + info.id );
+			getContentResolver().delete( uri, null, null );
+			fillData();
+			return true;
+		case EDIT_ID: 
+			info = (AdapterContextMenuInfo)item.getMenuInfo();
+			uri = Uri.parse( SchedulerContentProvider.CONTENT_URI + "/" + info.id );
+			return true;
+		}
+		return super.onContextItemSelected( item );
 	}
 }

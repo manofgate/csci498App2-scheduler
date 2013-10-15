@@ -20,5 +20,6 @@
     <string name="title_activity_add_homework">AddHomeworkActivity</string>
     <string name="statement">Enter the Course:</string>
     <string name="menu_delete">Delete Item</string>
+    <string name="menu_edit">Edit Item</string>
 
 </resources>
