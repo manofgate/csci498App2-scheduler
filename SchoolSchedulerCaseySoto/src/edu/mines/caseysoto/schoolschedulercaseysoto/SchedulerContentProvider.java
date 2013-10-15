@@ -199,6 +199,21 @@ public class SchedulerContentProvider extends ContentProvider
               selectionArgs );
         }
         break;
+      case HOMEWORK:
+          rowsUpdated = sqlDB.update( HomeworkTable.TABLE_NAME, values, selection, selectionArgs );
+          break;
+        case HOMEWORK_ID:
+          id = uri.getLastPathSegment();
+          if( TextUtils.isEmpty( selection ) )
+          {
+            rowsUpdated = sqlDB.update( HomeworkTable.TABLE_NAME, values, HomeworkTable.COLUMN_ID + "=" + id, null );
+          }
+          else
+          {
+            rowsUpdated = sqlDB.update( HomeworkTable.TABLE_NAME, values, HomeworkTable.COLUMN_ID + "=" + id + " and " + selection,
+                selectionArgs );
+          }
+          break;
       default:
         throw new IllegalArgumentException( "Unknown URI: " + uri );
     }

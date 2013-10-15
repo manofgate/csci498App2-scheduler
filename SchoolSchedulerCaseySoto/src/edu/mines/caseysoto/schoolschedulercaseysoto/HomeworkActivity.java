@@ -70,7 +70,7 @@ public class HomeworkActivity extends ListActivity implements LoaderManager.Load
 	{
 		// Fields from the database (projection)
 		// Must include the _id column for the adapter to work
-		String[] from = new String[] { HomeworkTable.COLUMN_ID, HomeworkTable.COLUMN_NAME, HomeworkTable.COLUMN_DATE, HomeworkTable.COLUMN_DESCRIPTION, HomeworkTable.COLUMN_COURSE_NAME };
+		String[] from = new String[] {HomeworkTable.COLUMN_NAME, HomeworkTable.COLUMN_DATE, HomeworkTable.COLUMN_DESCRIPTION, HomeworkTable.COLUMN_COURSE_NAME };
 
 		// Fields on the UI to which we map
 		int[] to = new int[] { R.id.label };
@@ -106,7 +106,7 @@ public class HomeworkActivity extends ListActivity implements LoaderManager.Load
 		{
 		case DELETE_ID:
 			AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
-			Uri uri = Uri.parse( SchedulerContentProvider.CONTENT_URI + "/" + info.id );
+			Uri uri = Uri.parse( SchedulerContentProvider.CONTENT_URI_H + "/" + info.id );
 			getContentResolver().delete( uri, null, null );
 			fillData();
 			return true;
