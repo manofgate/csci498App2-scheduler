@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,23 +41,28 @@ public class HomeworkActivity extends ListActivity implements LoaderManager.Load
 	{
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.homework_list );
-		this.getListView().setDividerHeight( 2 );
-		fillData();
-		registerForContextMenu( getListView() );
-
 		mCourseText= findViewById(R.id.courseNameMid);
-
 		// Get the message from the intent
 		Intent intent = getIntent();
 		String message = intent.getStringExtra( MainActivity.COURSE_MNAME);
 		((TextView) mCourseText).setText(message);
 		courseName = message;
+		
+		this.getListView().setDividerHeight( 2 );
+		fillData();
+		registerForContextMenu( getListView() );
+
+		
+
+		
 	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 		String[] projection = { HomeworkTable.COLUMN_ID, HomeworkTable.COLUMN_NAME, HomeworkTable.COLUMN_DATE, HomeworkTable.COLUMN_DESCRIPTION, HomeworkTable.COLUMN_COURSE_NAME };
-		CursorLoader cursorLoader = new CursorLoader( this, SchedulerContentProvider.CONTENT_URI_H, projection, null, null, null );
+		Log.d("SchoolScheduler::OnlyCourse", "This Course name is "+ courseName);
+		String[] selection = {courseName};
+		CursorLoader cursorLoader = new CursorLoader( this, SchedulerContentProvider.CONTENT_URI_H, projection, "course=?", selection, null );
 		return cursorLoader;
 	}
 
