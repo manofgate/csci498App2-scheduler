@@ -245,4 +245,5 @@ public class SchedulerContentProvider extends ContentProvider
     }
     return tableName;
   }  
+  
 }
