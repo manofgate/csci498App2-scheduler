@@ -10,12 +10,14 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -83,8 +85,21 @@ public class HomeworkActivity extends ListActivity implements LoaderManager.Load
 
 		// Note the last parameter to this constructor (zero), which indicates the adaptor should
 		// not try to automatically re-query the data ... the loader will take care of this.
-		this.adapter = new SimpleCursorAdapter( this, R.layout.home_list_row, null, from, to, 0 );
+		this.adapter = new SimpleCursorAdapter( this, R.layout.list_row, null, from, to, 0 ){
+			@Override
+		    public View getView(int position, View convertView, ViewGroup parent) {
+				 View v = super.getView(position, convertView, parent);
 
+			        if (position %2 ==1) {
+			            v.setBackgroundColor(Color.argb(TRIM_MEMORY_MODERATE, 100, 100, 100));
+			        } else {
+			            v.setBackgroundColor(Color.argb(TRIM_MEMORY_MODERATE, 170, 170, 170)); //or whatever was original
+			        }
+
+			        return v;
+			}
+			
+		};;
 		// Let this ListActivity display the contents of the cursor adapter.
 		setListAdapter( this.adapter );
 	}

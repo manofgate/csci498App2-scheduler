@@ -12,8 +12,6 @@
 
 package edu.mines.caseysoto.schoolschedulercaseysoto;
 
-import android.net.Uri;
-import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.app.LoaderManager;
@@ -22,16 +20,20 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.view.ViewGroup;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 
 @SuppressLint("NewApi")
 public class MainActivity extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor>, InputDialogFragment.Listener{
@@ -54,6 +56,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 			check();
 	}
 
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -127,6 +130,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		
 		
 	}
+	
 	@Override
 	protected void onListItemClick( ListView l, View v, int position, long id )
 	{
@@ -239,7 +243,21 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 
 		// Note the last parameter to this constructor (zero), which indicates the adaptor should
 		// not try to automatically re-query the data ... the loader will take care of this.
-		this.adapter = new SimpleCursorAdapter( this, R.layout.list_row, null, from, to, 0 );
+		this.adapter = new SimpleCursorAdapter( this, R.layout.list_row, null, from, to, 0 ){
+			@Override
+		    public View getView(int position, View convertView, ViewGroup parent) {
+				 View v = super.getView(position, convertView, parent);
+
+			        if (position %2 ==1) {
+			            v.setBackgroundColor(Color.argb(TRIM_MEMORY_MODERATE, 100, 100, 100));
+			        } else {
+			            v.setBackgroundColor(Color.argb(TRIM_MEMORY_MODERATE, 170, 170, 170)); //or whatever was original
+			        }
+
+			        return v;
+			}
+			
+		};
 
 
 		// Let this ListActivity display the contents of the cursor adapter.
