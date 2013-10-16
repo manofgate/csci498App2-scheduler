@@ -2,11 +2,15 @@
 
 package edu.mines.caseysoto.schoolschedulercaseysoto;
 
+import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -55,28 +59,43 @@ public class AddHomeworkActivity extends Activity {
 		if(checkDate(dueDate)){
 			Toast toast = Toast.makeText(getApplicationContext(), "Name: " + hwName + " Desc: " + desc + " Due Date: " + dueDate, Toast.LENGTH_LONG);
 			toast.show();
+			
+			dueDate = dueDate.substring(0, 2) + "-" + dueDate.substring(2, 4) + "-" + dueDate.substring(4, 8);
 		} else {
-			Toast toast = Toast.makeText(getApplicationContext(), "1. Incorrect date format. Set to today's date." , Toast.LENGTH_LONG);
+			Toast toast = Toast.makeText(getApplicationContext(), "Incorrect date format. Set to today's date." , Toast.LENGTH_LONG);
 			toast.show();
-			dueDate = "10022013";
+			Calendar currentDate = Calendar.getInstance(); //Get the current date
+			SimpleDateFormat today = new SimpleDateFormat("MM-dd-yyyy", java.util.Locale.getDefault()); //format it as per your requirement
+			dueDate = today.format(currentDate.getTime());
 		}
-		
+
 		insertNewHW(hwName, dueDate, desc, course);
-		
+
 		finish();
 	}
 
 	private boolean checkDate(String dateInput) {
 		boolean correctInput = false;
-		
+
 		if(dateInput.length() == 8){
 			dateInput = dateInput.substring(0, 2) + "-" + dateInput.substring(2, 4) + "-" + dateInput.substring(4, 8);
 		}
-		
+
 		if(dateInput.length() == 10){
-			    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-			    sdf.setLenient(false);
-			    correctInput = sdf.parse(dateInput, new ParsePosition(0)) != null;
+			SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy", java.util.Locale.getDefault());
+
+			Calendar currentDate = Calendar.getInstance(); //Get the current date
+			SimpleDateFormat today= new SimpleDateFormat("MM-dd-yyyy", java.util.Locale.getDefault()); //format it as per your requirement
+			String dateNow = today.format(currentDate.getTime());
+
+			try {
+				Date date1 = sdf.parse(dateInput);
+				Date date2 = today.parse(dateNow);
+				correctInput = !date1.before(date2);
+			} catch (ParseException e) {
+				correctInput = false;
+				Log.d("ADDHOMEWORKACTIVITY", "Error parsing dates." + e);
+			}
 		} else {
 			Toast toast = Toast.makeText(getApplicationContext(), "Incorrect date format. Set to today's date." , Toast.LENGTH_LONG);
 			toast.show();
@@ -84,17 +103,17 @@ public class AddHomeworkActivity extends Activity {
 
 		return correctInput;
 	}
-	
+
 	public void insertNewHW(String name, String date, String desc, String course){
 		ContentValues values = new ContentValues();
 		values.put( HomeworkTable.COLUMN_NAME, name );
 		values.put( HomeworkTable.COLUMN_DATE, date );
 		values.put( HomeworkTable.COLUMN_DESCRIPTION, desc);
 		values.put( HomeworkTable.COLUMN_COURSE_NAME, course);
-		
+
 		String[] projection = { HomeworkTable.COLUMN_ID, HomeworkTable.COLUMN_NAME};
 		String[] selection = {name};
-		
+
 		Uri CourseUri = getContentResolver().insert( SchedulerContentProvider.CONTENT_URI_H, values );
 
 		//checks to see if that course name has already been added
