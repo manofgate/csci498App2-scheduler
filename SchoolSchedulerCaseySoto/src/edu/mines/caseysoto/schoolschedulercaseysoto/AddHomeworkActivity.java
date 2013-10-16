@@ -56,7 +56,7 @@ public class AddHomeworkActivity extends Activity {
 			Toast toast = Toast.makeText(getApplicationContext(), "Name: " + hwName + " Desc: " + desc + " Due Date: " + dueDate, Toast.LENGTH_LONG);
 			toast.show();
 		} else {
-			Toast toast = Toast.makeText(getApplicationContext(), "Incorrect date format. Set to today's date." , Toast.LENGTH_LONG);
+			Toast toast = Toast.makeText(getApplicationContext(), "1. Incorrect date format. Set to today's date." , Toast.LENGTH_LONG);
 			toast.show();
 			dueDate = "10022013";
 		}
@@ -77,6 +77,7 @@ public class AddHomeworkActivity extends Activity {
 			    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			    sdf.setLenient(false);
 			    correctInput = sdf.parse(dateInput, new ParsePosition(0)) != null;
+			    correctInput = true;
 		} else {
 			Toast toast = Toast.makeText(getApplicationContext(), "Incorrect date format. Set to today's date." , Toast.LENGTH_LONG);
 			toast.show();

@@ -1,5 +1,7 @@
 package edu.mines.caseysoto.schoolschedulercaseysoto;
-
+/*
+ * http://www.androidhive.info/2013/09/android-sqlite-database-with-multiple-tables/
+ */
 
 import android.annotation.SuppressLint;
 import android.app.ListActivity;
@@ -72,10 +74,11 @@ public class HomeworkActivity extends ListActivity implements LoaderManager.Load
 	{
 		// Fields from the database (projection)
 		// Must include the _id column for the adapter to work
-		String[] from = new String[] {HomeworkTable.COLUMN_NAME, HomeworkTable.COLUMN_DATE, HomeworkTable.COLUMN_DESCRIPTION, HomeworkTable.COLUMN_COURSE_NAME };
+
+		String[] from = new String[] { HomeworkTable.COLUMN_NAME, HomeworkTable.COLUMN_DATE, HomeworkTable.COLUMN_DESCRIPTION };
 
 		// Fields on the UI to which we map
-		int[] to = new int[] { R.id.label };
+		int[] to = new int[] { R.id.hwName, R.id.date, R.id.descrption };
 
 		// Ensure a loader is initialized and active.
 		getLoaderManager().initLoader( 0, null, this );
@@ -97,7 +100,6 @@ public class HomeworkActivity extends ListActivity implements LoaderManager.Load
 			}
 			
 		};;
-
 		// Let this ListActivity display the contents of the cursor adapter.
 		setListAdapter( this.adapter );
 	}
