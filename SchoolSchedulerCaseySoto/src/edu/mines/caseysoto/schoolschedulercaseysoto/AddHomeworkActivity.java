@@ -77,7 +77,6 @@ public class AddHomeworkActivity extends Activity {
 			    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			    sdf.setLenient(false);
 			    correctInput = sdf.parse(dateInput, new ParsePosition(0)) != null;
-			    correctInput = true;
 		} else {
 			Toast toast = Toast.makeText(getApplicationContext(), "Incorrect date format. Set to today's date." , Toast.LENGTH_LONG);
 			toast.show();
