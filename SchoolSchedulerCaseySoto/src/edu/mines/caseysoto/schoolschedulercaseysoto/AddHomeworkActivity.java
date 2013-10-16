@@ -23,6 +23,13 @@ import android.database.Cursor;
 public class AddHomeworkActivity extends Activity {
 	private final static int DESC_MAX = 140;
 	private View mCourseText;
+	private View hwNameText;
+	private View dateText;
+	private View descText;
+	private boolean update = false;
+	private String hwName = "";
+	private String date = "";
+	private String description = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +37,23 @@ public class AddHomeworkActivity extends Activity {
 		setContentView(R.layout.activity_add_homework);
 
 		mCourseText = findViewById(R.id.courseNameEnd);
+		hwNameText = findViewById(R.id.nameInput);
+		dateText = findViewById(R.id.dateInput);
+		descText = findViewById(R.id.descriptionInput);
+
 		//get the message from the intent
 		Intent intent = getIntent();
 		String message = intent.getStringExtra( MainActivity.COURSE_MNAME);
+		hwName = intent.getStringExtra( MainActivity.HW_NAME_TEXT);
+		date = intent.getStringExtra( MainActivity.DATE_TEXT);
+		description = intent.getStringExtra( MainActivity.DESC_TEXT);
 		((TextView) mCourseText).setText(message);
+		if(!hwName.equals("")){
+			((TextView) hwNameText).setText(hwName);
+			((TextView) descText).setText(description);
+			((TextView) dateText).setText(date);
+			update = true;
+		}
 	}
 
 	public void submit(View view){
@@ -56,11 +76,13 @@ public class AddHomeworkActivity extends Activity {
 			desc = "None";
 		}
 
-		if(checkDate(dueDate)){
+		if(checkDate(dueDate) || update){
 			Toast toast = Toast.makeText(getApplicationContext(), "Name: " + hwName + " Desc: " + desc + " Due Date: " + dueDate, Toast.LENGTH_LONG);
 			toast.show();
-			
-			dueDate = dueDate.substring(0, 2) + "-" + dueDate.substring(2, 4) + "-" + dueDate.substring(4, 8);
+
+			if(!dueDate.contains("-")){
+				dueDate = dueDate.substring(0, 2) + "-" + dueDate.substring(2, 4) + "-" + dueDate.substring(4, 8);
+			}
 		} else {
 			Toast toast = Toast.makeText(getApplicationContext(), "Incorrect date format. Set to today's date." , Toast.LENGTH_LONG);
 			toast.show();
@@ -69,8 +91,37 @@ public class AddHomeworkActivity extends Activity {
 			dueDate = today.format(currentDate.getTime());
 		}
 
-		insertNewHW(hwName, dueDate, desc, course);
+		if(update){
+			updateHW(hwName, dueDate, desc);
+		} else {
+			insertNewHW(hwName, dueDate, desc, course);
+		}
 
+		finish();
+	}
+
+	private void updateHW(String name, String dueDate, String desc) {
+		int rowsUpdated = 0;
+		ContentValues values = new ContentValues();
+		if(!name.equals(hwName)){
+			values.put( HomeworkTable.COLUMN_NAME, name );
+			String[] selection = {hwName};
+			rowsUpdated = rowsUpdated + getContentResolver().update( SchedulerContentProvider.CONTENT_URI_H, values, "name=?", selection );
+		}
+		if(!dueDate.equals(date)){
+			values.put( HomeworkTable.COLUMN_DATE, dueDate );
+			String[] selection = {date, name};
+			rowsUpdated = rowsUpdated + getContentResolver().update( SchedulerContentProvider.CONTENT_URI_H, values, "date=? AND name=?", selection );
+		}
+		if(!desc.equals(description)){
+			values.put( HomeworkTable.COLUMN_DESCRIPTION, desc );
+			String[] selection = {description, name};
+			rowsUpdated = rowsUpdated + getContentResolver().update( SchedulerContentProvider.CONTENT_URI_H, values, "desc=? AND name=?", selection );
+		}
+
+		if(rowsUpdated == 0){
+			Log.d("ADDHOMEWORK", "Now rows were updated");
+		}
 		finish();
 	}
 

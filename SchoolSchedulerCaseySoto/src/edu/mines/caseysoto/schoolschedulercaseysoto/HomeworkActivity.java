@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -113,6 +114,9 @@ public class HomeworkActivity extends ListActivity implements LoaderManager.Load
 	public void addHomeworkToList(View view){
 		Intent intent = new Intent(this, AddHomeworkActivity.class);
 		intent.putExtra(MainActivity.COURSE_MNAME, courseName);
+		intent.putExtra(MainActivity.HW_NAME_TEXT, "");
+		intent.putExtra(MainActivity.DATE_TEXT, "");
+		intent.putExtra(MainActivity.DESC_TEXT, "");
 		startActivity(intent);
 	}
 	/** The menu displayed on a long touch. */
@@ -134,11 +138,33 @@ public class HomeworkActivity extends ListActivity implements LoaderManager.Load
 			getContentResolver().delete( uri, null, null );
 			fillData();
 			return true;
-		case EDIT_ID: 
-			info = (AdapterContextMenuInfo)item.getMenuInfo();
-			uri = Uri.parse( SchedulerContentProvider.CONTENT_URI + "/" + info.id );
-			return true;
 		}
 		return super.onContextItemSelected( item );
+	}
+	
+	@Override
+	protected void onListItemClick( ListView l, View v, int position, long id )
+	{
+		super.onListItemClick( l, v, position, id );
+		Intent i = new Intent( this, AddHomeworkActivity.class );
+		Uri courseUri = Uri.parse( SchedulerContentProvider.CONTENT_URI_H + "/" + id );
+		String[] projection = { HomeworkTable.COLUMN_NAME, HomeworkTable.COLUMN_DATE, HomeworkTable.COLUMN_DESCRIPTION, HomeworkTable.COLUMN_COURSE_NAME };
+
+		//gets the uris for the same id, moves it to first position.
+		Cursor cursor = getContentResolver().query( courseUri, projection, null, null, null );
+		String name= "", courseName = "", date = "", desc = "";
+		
+		cursor.moveToFirst();	    
+		name = cursor.getString( cursor.getColumnIndexOrThrow( HomeworkTable.COLUMN_NAME ) );
+		date = cursor.getString( cursor.getColumnIndexOrThrow( HomeworkTable.COLUMN_DATE ) );
+		desc = cursor.getString( cursor.getColumnIndexOrThrow( HomeworkTable.COLUMN_DESCRIPTION ) );
+		courseName = cursor.getString( cursor.getColumnIndexOrThrow( HomeworkTable.COLUMN_COURSE_NAME ) );
+		cursor.close();
+		
+		i.putExtra(MainActivity.HW_NAME_TEXT, name);
+		i.putExtra(MainActivity.DATE_TEXT, date);
+		i.putExtra(MainActivity.DESC_TEXT, desc);
+		i.putExtra(MainActivity.COURSE_MNAME, courseName);
+		startActivity( i );
 	}
 }
