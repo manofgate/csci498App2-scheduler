@@ -85,7 +85,7 @@ public class HomeworkActivity extends ListActivity implements LoaderManager.Load
 
 		// Note the last parameter to this constructor (zero), which indicates the adaptor should
 		// not try to automatically re-query the data ... the loader will take care of this.
-		this.adapter = new SimpleCursorAdapter( this, R.layout.list_row, null, from, to, 0 ){
+		this.adapter = new SimpleCursorAdapter( this, R.layout.home_list_row, null, from, to, 0 ){
 			@Override
 		    public View getView(int position, View convertView, ViewGroup parent) {
 				 View v = super.getView(position, convertView, parent);
