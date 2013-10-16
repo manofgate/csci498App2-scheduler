@@ -63,6 +63,18 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	@Override
+	  public boolean onOptionsItemSelected( MenuItem item )
+	  {
+	    switch( item.getItemId() )
+	    {
+	    case R.id.action_allHomework:
+	    	Intent i = new Intent(this, AllHomeworkActivity.class);
+			startActivity(i);
+	    default:
+	          return super.onOptionsItemSelected(item);
+	    }
+	  }
 	public void onDialog(View view){
 		Bundle args = new Bundle();
 		args.putInt( "dialogID", 1 );
