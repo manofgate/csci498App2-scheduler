@@ -21,5 +21,6 @@
     <string name="statement">Enter the Course:</string>
     <string name="menu_delete">Delete Item</string>
     <string name="menu_edit">Edit Item</string>
+    <string name="allHomework">All Homework </string>
 
 </resources>

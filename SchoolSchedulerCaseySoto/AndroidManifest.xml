@@ -37,6 +37,10 @@
             android:name="edu.mines.caseysoto.schoolschedulercaseysoto.AddHomeworkActivity"
             android:label="@string/title_activity_add_homework" >
         </activity>
+        <activity
+            android:name="edu.mines.caseysoto.schoolschedulercaseysoto.AllHomeworkActivity"
+            android:label="@string/homeworkName" >
+        </activity>
     </application>
 
 </manifest>
