@@ -8,6 +8,7 @@
  *
  * @author Craig J. Soto II
  * @author Ben Casey
+ * point distribution: Ben- 55% : Craig - 45% 
  */
 
 package edu.mines.caseysoto.schoolschedulercaseysoto;
@@ -51,9 +52,6 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		this.getListView().setDividerHeight( 2 );
 		fillData();
 		registerForContextMenu( getListView() );
-
-		if(savedInstanceState== null)
-			check();
 	}
 
 	
@@ -85,13 +83,10 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		dialog.show( getFragmentManager(), "Dialog" );
 
 	}
-	public void check(){
-		ContentValues values = new ContentValues();
-		values.put( CourseTable.COLUMN_NAME, "CSCI498" );
-		String[] projection = { CourseTable.COLUMN_ID, CourseTable.COLUMN_NAME}; 
-		Cursor cursor = getContentResolver().query( SchedulerContentProvider.CONTENT_URI, projection, null, null, null );
-		cursor.close();
-	}
+	/**
+	 * Inserts the course into the Course Table.
+	 * checks to see if there are now 2 course of the same name and deletes the last inserted course
+	 */
 	public void insertNewCourse(){
 		ContentValues values = new ContentValues();
 		//values.put(CourseTable.COLUMN_ID, "idd");
@@ -113,6 +108,11 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		cursor.close();
 		
 	}
+	
+	/**
+	 * Updates the course Name and it's corresponding homework.
+	 * @param newCourseName : used to update the name while courseName is the old course name to query
+	 */
 	public void updateNewCourse(String newCourseName){
 		ContentValues values = new ContentValues();
 		values.put( CourseTable.COLUMN_NAME, newCourseName );
@@ -142,7 +142,9 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		
 		
 	}
-	
+	/**
+	 * overrided function from listView that when clicked will open up the homework activity to show the courses homework.
+	 */
 	@Override
 	protected void onListItemClick( ListView l, View v, int position, long id )
 	{
@@ -162,7 +164,11 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		startActivity( i );
 	}
 
-
+	/**
+	 * overridden function from listview, if long pressed will delete or edit the course.
+	 * The delete, deletes the course and deletes the corresponding homework from the homework table
+	 * The edit uses the input Dialog and that changes the course name and corresponding homework.
+	 */
 	@Override
 	public boolean onContextItemSelected( MenuItem item )
 	{
@@ -191,10 +197,8 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 			Cursor cursor = getContentResolver().query( uri, projection, "course=?", querySelection, null );
 			String name= "";
 			cursor.moveToFirst();
-			//Log.d("School Scehduler:: before LOOP", "how much " + cursor.getCount());
 			for(int i=0; i < cursor.getCount(); ++i){
 				String id =  cursor.getString(cursor.getColumnIndexOrThrow(HomeworkTable.COLUMN_ID));
-				//Log.d("School Scheduler::InLOOP", "the id is: " + id);
 				uri = Uri.parse( SchedulerContentProvider.CONTENT_URI_H + "/" + id );
 				getContentResolver().delete( uri, null, null );
 				cursor.moveToNext();
@@ -224,6 +228,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		}
 		return super.onContextItemSelected( item );
 	}
+	
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 		String[] projection = { CourseTable.COLUMN_ID, CourseTable.COLUMN_NAME };
@@ -240,7 +245,10 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 	public void onLoaderReset(Loader<Cursor> arg0) {
 		this.adapter.swapCursor( null );
 	}
-
+	
+	/**
+	 * the main aspect of updated the listview, so that the insertion, deletion, and editing shows up. 
+	 */
 	private void fillData()
 	{
 		// Fields from the database (projection)
