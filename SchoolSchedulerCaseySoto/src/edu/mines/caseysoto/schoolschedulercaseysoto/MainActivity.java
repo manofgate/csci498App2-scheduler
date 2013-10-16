@@ -44,6 +44,9 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 	private static final int EDIT_ID = Menu.FIRST + 2;
 	private String courseName;
 	public static final String COURSE_MNAME = "NameOfCourse";
+	public static final String HW_NAME_TEXT = "NameOfHW";
+	public static final String DATE_TEXT = "DueDate";
+	public static final String DESC_TEXT = "Description";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
