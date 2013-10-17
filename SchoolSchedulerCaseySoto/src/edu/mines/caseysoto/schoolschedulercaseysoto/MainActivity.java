@@ -52,7 +52,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.classes_list);
-		this.getListView().setDividerHeight( 2 );
+		this.getListView().setDividerHeight( 4);
 		fillData();
 		registerForContextMenu( getListView() );
 	}
