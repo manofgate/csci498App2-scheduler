@@ -1,6 +1,13 @@
+/** * Description: This class is for typing in the course name for either creating a new course or editing one. 
+ * 
+ * @author Ben Casey
+ * 
+ *  also used the Dialog Demo from class
+ */
 package edu.mines.caseysoto.schoolschedulercaseysoto;
 
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -9,7 +16,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.widget.EditText;
 
-
+@SuppressLint("NewApi")
 public class InputDialogFragment extends DialogFragment
 {
   private EditText input;
@@ -21,7 +28,12 @@ public class InputDialogFragment extends DialogFragment
     void onInputDone( int dialogID, String input );
     void onInputCancel( int dialogID );
   }
-
+  
+  /**
+   * given the dialogID which is either edit or Insert.
+   * given the prompt which is course
+   * On Create Dialog creates the dialog and brings it up to be able to input 1 string which will be the course name.
+   */
   @Override
   public Dialog onCreateDialog( Bundle savedInstanceState )
   {

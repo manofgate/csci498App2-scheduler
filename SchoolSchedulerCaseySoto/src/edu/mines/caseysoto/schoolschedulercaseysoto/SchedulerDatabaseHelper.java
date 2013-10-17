@@ -1,15 +1,15 @@
+/** * Description: This class is for the course portion of the database. it is te helper with sql to actually make the database 
+ * 
+ * @author Ben Casey
+ * 
+ *  also used the TODO Demo from class
+ */
 package edu.mines.caseysoto.schoolschedulercaseysoto;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * http://www.vogella.com/articles/AndroidSQLite/article.html
- * http://www.vogella.com/articles/AndroidSQLite/article.html#todo
- * 
- * http://www.vogella.com/articles/AndroidSQLite/article.html#todo_database
- */
 public class SchedulerDatabaseHelper extends SQLiteOpenHelper
 {
   private static final String DATABASE_NAME = "coursetable.db";

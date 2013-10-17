@@ -1,3 +1,10 @@
+/** * Description: This class is to show all the homework from every course.
+ * 
+ * @author Ben Casey
+ * 
+ */
+
+
 package edu.mines.caseysoto.schoolschedulercaseysoto;
 /*
  * http://www.androidhive.info/2013/09/android-sqlite-database-with-multiple-tables/
@@ -7,13 +14,11 @@ import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 @SuppressLint("NewApi")
@@ -29,11 +33,11 @@ public class AllHomeworkActivity extends ListActivity implements LoaderManager.L
 
 	private static final int DELETE_ID = Menu.FIRST + 1;
 	private static final int EDIT_ID = Menu.FIRST + 2;
-	private String homeworkName;
 	private SimpleCursorAdapter adapter;
 	public static final String HW_NAME = "NameOfHomework";
 
-	/** Called when the activity is first created. */
+	/** Called when the activity is first created. Using the all_homework_list view and fills any data in/ creates the loader.
+	 * */
 	@Override
 	public void onCreate( Bundle savedInstanceState )
 	{
@@ -43,7 +47,11 @@ public class AllHomeworkActivity extends ListActivity implements LoaderManager.L
 		fillData();
 		registerForContextMenu( getListView() );
 	}
-
+	
+	/**
+	 * overrides the loader to create it with the all Homeworks table and shows every thing.
+	 * 
+	 */
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 		String[] projection = { HomeworkTable.COLUMN_ID, HomeworkTable.COLUMN_NAME, HomeworkTable.COLUMN_DATE, HomeworkTable.COLUMN_DESCRIPTION, HomeworkTable.COLUMN_COURSE_NAME };
@@ -61,6 +69,10 @@ public class AllHomeworkActivity extends ListActivity implements LoaderManager.L
 		this.adapter.swapCursor( null );
 	}
 
+	/**
+	 * fills in the list with the homework table using the homework_list_row formatt. 
+	 * also, adds different bg color for odds and evens.
+	 */
 	private void fillData()
 	{
 		// Fields from the database (projection)
@@ -103,6 +115,10 @@ public class AllHomeworkActivity extends ListActivity implements LoaderManager.L
 		menu.add( 0, DELETE_ID, 0, R.string.menu_delete );
 		menu.add( 0, EDIT_ID, 0, R.string.menu_edit );
 	}
+	
+	/**
+	 * when it is long pressed it can choose to edit or delete. 
+	 */
 	@Override
 	public boolean onContextItemSelected( MenuItem item )
 	{
