@@ -28,8 +28,7 @@
         android:layout_height="300dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/addCourseb"
-        android:dividerHeight="8dp" >
+        android:layout_below="@+id/addCourseb" >
     </ListView>
 
 </RelativeLayout>
