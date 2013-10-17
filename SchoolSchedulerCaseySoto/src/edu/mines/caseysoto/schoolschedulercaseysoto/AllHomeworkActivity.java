@@ -39,15 +39,14 @@ public class AllHomeworkActivity extends ListActivity implements LoaderManager.L
 	/** Called when the activity is first created. Using the all_homework_list view and fills any data in/ creates the loader.
 	 * */
 	@Override
-	public void onCreate( Bundle savedInstanceState )
-	{
+	public void onCreate( Bundle savedInstanceState ) {
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.all_homework_list );
 		this.getListView().setDividerHeight( 2 );
 		fillData();
 		registerForContextMenu( getListView() );
 	}
-	
+
 	/**
 	 * overrides the loader to create it with the all Homeworks table and shows every thing.
 	 * 
@@ -73,8 +72,7 @@ public class AllHomeworkActivity extends ListActivity implements LoaderManager.L
 	 * fills in the list with the homework table using the homework_list_row formatt. 
 	 * also, adds different bg color for odds and evens.
 	 */
-	private void fillData()
-	{
+	private void fillData() {
 		// Fields from the database (projection)
 		// Must include the _id column for the adapter to work
 
@@ -90,40 +88,37 @@ public class AllHomeworkActivity extends ListActivity implements LoaderManager.L
 		// not try to automatically re-query the data ... the loader will take care of this.
 		this.adapter = new SimpleCursorAdapter( this, R.layout.home_list_row, null, from, to, 0 ){
 			@Override
-		    public View getView(int position, View convertView, ViewGroup parent) {
-				 View v = super.getView(position, convertView, parent);
+			public View getView(int position, View convertView, ViewGroup parent) {
+				View v = super.getView(position, convertView, parent);
 
-			        if (position %2 ==1) {
-			            v.setBackgroundColor(Color.argb(TRIM_MEMORY_MODERATE, 100, 100, 100));
-			        } else {
-			            v.setBackgroundColor(Color.argb(TRIM_MEMORY_MODERATE, 170, 170, 170)); //or whatever was original
-			        }
+				if (position %2 ==1) {
+					v.setBackgroundColor(Color.argb(TRIM_MEMORY_MODERATE, 100, 100, 100));
+				} else {
+					v.setBackgroundColor(Color.argb(TRIM_MEMORY_MODERATE, 170, 170, 170)); //or whatever was original
+				}
 
-			        return v;
+				return v;
 			}
-			
-		};;
+
+		};
 		// Let this ListActivity display the contents of the cursor adapter.
 		setListAdapter( this.adapter );
 	}
 
 	/** The menu displayed on a long touch. */
 	@Override
-	public void onCreateContextMenu( ContextMenu menu, View v, ContextMenuInfo menuInfo )
-	{
+	public void onCreateContextMenu( ContextMenu menu, View v, ContextMenuInfo menuInfo ) {
 		super.onCreateContextMenu( menu, v, menuInfo );
 		menu.add( 0, DELETE_ID, 0, R.string.menu_delete );
 		menu.add( 0, EDIT_ID, 0, R.string.menu_edit );
 	}
-	
+
 	/**
 	 * when it is long pressed it can choose to edit or delete. 
 	 */
 	@Override
-	public boolean onContextItemSelected( MenuItem item )
-	{
-		switch( item.getItemId() )
-		{
+	public boolean onContextItemSelected( MenuItem item ) {
+		switch( item.getItemId() ) {
 		case DELETE_ID:
 			AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
 			Uri uri = Uri.parse( SchedulerContentProvider.CONTENT_URI_H + "/" + info.id );

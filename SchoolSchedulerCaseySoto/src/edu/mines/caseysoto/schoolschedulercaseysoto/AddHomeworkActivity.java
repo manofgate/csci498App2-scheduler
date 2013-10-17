@@ -177,7 +177,7 @@ public class AddHomeworkActivity extends Activity {
 
 		return correctInput;
 	}
-	
+
 	/**
 	 * The updateHW method checks to see if the name, due date, or description needs to be updated. 
 	 * If any of them need to be updated then update it. 
@@ -188,7 +188,7 @@ public class AddHomeworkActivity extends Activity {
 	 */
 	private void updateHW(String name, String dueDate, String desc) {
 		int rowsUpdated = 0;
-		
+
 		//If the name/date/description was updated by the user it won't match the values that were passed
 		//from HomeworkActivity when the user clicked a homework to be updated. In this case, updated
 		//that item respectively. 
@@ -226,7 +226,7 @@ public class AddHomeworkActivity extends Activity {
 		values.put( HomeworkTable.COLUMN_DATE, date );
 		values.put( HomeworkTable.COLUMN_DESCRIPTION, desc);
 		values.put( HomeworkTable.COLUMN_COURSE_NAME, course);
-		
+
 		//Insert values into the Homework Table
 		getContentResolver().insert( SchedulerContentProvider.CONTENT_URI_H, values );
 
@@ -234,7 +234,7 @@ public class AddHomeworkActivity extends Activity {
 		String[] projection = { HomeworkTable.COLUMN_ID, HomeworkTable.COLUMN_NAME};
 		String[] selection = {name};
 		Cursor cursor = getContentResolver().query( SchedulerContentProvider.CONTENT_URI_H, projection, "name=?", selection, HomeworkTable.COLUMN_ID + " DESC" );
-		
+
 		//If there were multiple entries remove the last insert then notify the user. 
 		if(cursor.getCount() > 1){
 			cursor.moveToFirst();
