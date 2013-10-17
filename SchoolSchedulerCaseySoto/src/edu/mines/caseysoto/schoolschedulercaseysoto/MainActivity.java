@@ -96,7 +96,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		values.put( CourseTable.COLUMN_NAME, courseName );
 		String[] projection = { CourseTable.COLUMN_ID, CourseTable.COLUMN_NAME};
 		String[] selection = {courseName};
-		Uri CourseUri = getContentResolver().insert( SchedulerContentProvider.CONTENT_URI, values );
+		getContentResolver().insert( SchedulerContentProvider.CONTENT_URI, values );
 		
 		//chgecks to see if that course name has already been added
 		Cursor cursor = getContentResolver().query( SchedulerContentProvider.CONTENT_URI, projection, "name=?", selection, CourseTable.COLUMN_ID + " DESC" );
@@ -146,7 +146,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		
 	}
 	/**
-	 * overrided function from listView that when clicked will open up the homework activity to show the courses homework.
+	 * overriden function from listView that when clicked will open up the homework activity to show the courses homework.
 	 */
 	@Override
 	protected void onListItemClick( ListView l, View v, int position, long id )
@@ -198,7 +198,6 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 			//gets the uris for the same id, moves it to first position.
 			uri = Uri.parse( SchedulerContentProvider.CONTENT_URI_H + "/");
 			Cursor cursor = getContentResolver().query( uri, projection, "course=?", querySelection, null );
-			String name= "";
 			cursor.moveToFirst();
 			for(int i=0; i < cursor.getCount(); ++i){
 				String id =  cursor.getString(cursor.getColumnIndexOrThrow(HomeworkTable.COLUMN_ID));
@@ -231,7 +230,9 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		}
 		return super.onContextItemSelected( item );
 	}
-	
+	/**
+	 * onCreateLoader loads the initial course table with anything that follows the projection in the database.
+	 */
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 		String[] projection = { CourseTable.COLUMN_ID, CourseTable.COLUMN_NAME };
@@ -251,6 +252,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 	
 	/**
 	 * the main aspect of updated the listview, so that the insertion, deletion, and editing shows up. 
+	 * the adapter also adds background color for odd- even rows.
 	 */
 	private void fillData()
 	{
@@ -287,6 +289,11 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 		setListAdapter( this.adapter );
 	}
 
+	/**
+	 * overrides the dialog fragment for inputting course. depending on eit or inserting. 
+	 * @param dialogID : the id returned to see if it is an insert or edit.
+	 * @param input : the returned string.
+	 */
 	@Override
 	public void onInputDone( int dialogID, String input )
 	{

@@ -1,3 +1,10 @@
+/** * Description: This class is for the database interaction with the homework, course tables on insert, delete, update, and query 
+ * 
+ * @author Ben Casey
+ * @author Craig Soto II
+ * 
+ *  also used the TODO Demo from class
+ */
 package edu.mines.caseysoto.schoolschedulercaseysoto;
 
 import java.util.Arrays;
