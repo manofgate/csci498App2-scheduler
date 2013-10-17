@@ -10,7 +10,7 @@
     <string name="date">Due Date:</string>
     <string name="description">Description:</string>
     <string name="descriptionHint">140 Characters</string>
-    <string name="dateHint">mmddyy</string>
+    <string name="dateHint">mmddyyyy</string>
     <string name="addCourse">Add</string>
     <string name="addHomework">Add</string>
     <string name="submitName">Submit</string>

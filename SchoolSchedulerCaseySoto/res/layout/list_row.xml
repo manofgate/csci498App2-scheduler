@@ -3,16 +3,6 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content" >
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="30dp"
-        android:layout_height="48dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-         >
-    </ImageView>InputDialogFragment.javaInputDialogFragment.javaInputDialogFragment.javaInputDialogFragment.javaInputDialogFragment.java
-
     <TextView
         android:id="@+id/label"
         android:layout_width="wrap_content"
@@ -20,8 +10,7 @@
         android:layout_marginTop="6dp"
         android:lines="1"
         android:text="@+id/TextView01"
-        android:textSize="24sp">
+        android:textSize="24sp" >
     </TextView>
-
 
 </LinearLayout>

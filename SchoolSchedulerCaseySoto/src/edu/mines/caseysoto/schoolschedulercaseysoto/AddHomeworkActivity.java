@@ -3,7 +3,6 @@
 package edu.mines.caseysoto.schoolschedulercaseysoto;
 
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -105,18 +104,18 @@ public class AddHomeworkActivity extends Activity {
 		ContentValues values = new ContentValues();
 		if(!name.equals(hwName)){
 			values.put( HomeworkTable.COLUMN_NAME, name );
-			String[] selection = {hwName};
-			rowsUpdated = rowsUpdated + getContentResolver().update( SchedulerContentProvider.CONTENT_URI_H, values, "name=?", selection );
+			String[] selection = {hwName, date, description};
+			rowsUpdated = rowsUpdated + getContentResolver().update( SchedulerContentProvider.CONTENT_URI_H, values, "name=? AND date=? AND desc=?", selection );
 		}
 		if(!dueDate.equals(date)){
 			values.put( HomeworkTable.COLUMN_DATE, dueDate );
-			String[] selection = {date, name};
-			rowsUpdated = rowsUpdated + getContentResolver().update( SchedulerContentProvider.CONTENT_URI_H, values, "date=? AND name=?", selection );
+			String[] selection = {date, name, description};
+			rowsUpdated = rowsUpdated + getContentResolver().update( SchedulerContentProvider.CONTENT_URI_H, values, "date=? AND name=? AND desc=?", selection );
 		}
 		if(!desc.equals(description)){
 			values.put( HomeworkTable.COLUMN_DESCRIPTION, desc );
-			String[] selection = {description, name};
-			rowsUpdated = rowsUpdated + getContentResolver().update( SchedulerContentProvider.CONTENT_URI_H, values, "desc=? AND name=?", selection );
+			String[] selection = {description, name, dueDate};
+			rowsUpdated = rowsUpdated + getContentResolver().update( SchedulerContentProvider.CONTENT_URI_H, values, "desc=? AND name=? AND date=?", selection );
 		}
 
 		if(rowsUpdated == 0){
@@ -165,7 +164,7 @@ public class AddHomeworkActivity extends Activity {
 		String[] projection = { HomeworkTable.COLUMN_ID, HomeworkTable.COLUMN_NAME};
 		String[] selection = {name};
 
-		Uri CourseUri = getContentResolver().insert( SchedulerContentProvider.CONTENT_URI_H, values );
+		getContentResolver().insert( SchedulerContentProvider.CONTENT_URI_H, values );
 
 		//checks to see if that course name has already been added
 		Cursor cursor = getContentResolver().query( SchedulerContentProvider.CONTENT_URI_H, projection, "name=?", selection, HomeworkTable.COLUMN_ID + " DESC" );
